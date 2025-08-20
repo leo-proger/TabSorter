@@ -26,4 +26,11 @@
     <extensions defaultExtensionNs="com.intellij">
 
     </extensions>
+    <actions>
+        <action id="com.github.leo_proger.tab_sorter.SortTabsByAlphabet"
+                class="com.github.leo_proger.tab_sorter.SortTabsByAlphabet" text="By Alphabet"
+                description="Sort open tabs alphabetically">
+            <add-to-group group-id="EditorTabPopupMenu" anchor="first"/>
+        </action>
+    </actions>
 </idea-plugin>
