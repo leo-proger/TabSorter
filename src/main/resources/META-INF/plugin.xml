@@ -32,5 +32,10 @@
                 description="Sort open tabs alphabetically">
             <add-to-group group-id="EditorTabPopupMenu" anchor="first"/>
         </action>
+        <action id="com.github.leo_proger.tab_sorter.SortTabsByExtension"
+                class="com.github.leo_proger.tab_sorter.SortTabsByExtension" text="By Extension"
+                description="Sort open tabs by extension">
+            <add-to-group group-id="EditorTabPopupMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
