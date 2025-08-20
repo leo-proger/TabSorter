@@ -1,7 +1,6 @@
 package com.github.leo_proger.tab_sorter;
 
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -15,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class SortTabsByAlphabet extends AnAction {
+public class SortTabsByAlphabet extends Sorter {
 
 	@Override
 	public void actionPerformed(@NotNull AnActionEvent e) {
@@ -38,36 +37,6 @@ public class SortTabsByAlphabet extends AnAction {
 		files.sort(Comparator.comparing(VirtualFile::getName, String.CASE_INSENSITIVE_ORDER));
 
 		reorderTabs(targetWindow, files);
-	}
-
-	private void reorderTabs(EditorWindow window, List<VirtualFile> sortedFiles) {
-		List<VirtualFile> currentFiles = window.getFileList();
-		for (VirtualFile file : currentFiles)
-		{
-			window.closeFile(file, false, false);
-		}
-
-		for (VirtualFile file : sortedFiles)
-		{
-			window.getManager().openFileImpl2(window, file, true);
-		}
-	}
-
-	private EditorWindow findWindowContainingFile(FileEditorManagerImpl manager, VirtualFile clickedFile) {
-		EditorWindow[] windows = manager.getWindows();
-
-		for (EditorWindow window : windows)
-		{
-			List<VirtualFile> files = window.getFileList();
-			for (VirtualFile file : files)
-			{
-				if (file.equals(clickedFile))
-				{
-					return window;
-				}
-			}
-		}
-		return null;
 	}
 
 }
