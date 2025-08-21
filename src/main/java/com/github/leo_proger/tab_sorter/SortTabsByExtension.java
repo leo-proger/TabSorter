@@ -29,7 +29,7 @@ public class SortTabsByExtension extends Sorter {
 
 	private String getFileExtension(VirtualFile file) {
 		String extension = file.getExtension();
-		return extension != null ? extension : "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+		return extension != null ? extension : "zzz_no_extension";
 	}
 
 }

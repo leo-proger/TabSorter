@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class SortTabsByAlphabet extends Sorter {
+public class SortTabsByName extends Sorter {
 
 	@Override
 	public void actionPerformed(@NotNull AnActionEvent e) {

@@ -27,15 +27,20 @@
 
     </extensions>
     <actions>
-        <action id="com.github.leo_proger.tab_sorter.SortTabsByAlphabet"
-                class="com.github.leo_proger.tab_sorter.SortTabsByAlphabet" text="By Alphabet"
-                description="Sort open tabs alphabetically">
+        <group id="TabSorterGroup"
+               text="Sort Tabs"
+               description="Sort editor tabs by various criteria"
+               popup="true">
+
+            <action id="com.github.leo_proger.tab_sorter.SortTabsByName"
+                    class="com.github.leo_proger.tab_sorter.SortTabsByName" text="By Alphabet"
+                    description="Sort open tabs alphabetically">
+            </action>
+            <action id="com.github.leo_proger.tab_sorter.SortTabsByExtension"
+                    class="com.github.leo_proger.tab_sorter.SortTabsByExtension" text="By Extension"
+                    description="Sort open tabs by extension">
+            </action>
             <add-to-group group-id="EditorTabPopupMenu" anchor="first"/>
-        </action>
-        <action id="com.github.leo_proger.tab_sorter.SortTabsByExtension"
-                class="com.github.leo_proger.tab_sorter.SortTabsByExtension" text="By Extension"
-                description="Sort open tabs by extension">
-            <add-to-group group-id="EditorTabPopupMenu" anchor="first"/>
-        </action>
+        </group>
     </actions>
 </idea-plugin>
