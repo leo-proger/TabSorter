@@ -13,8 +13,16 @@
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-        Enter short description for your plugin here.<br>
-        <em>most HTML tags may be used</em>
+        TabSorter helps you sort open tabs in the editor window as you want.
+
+        <h2>Features:</h2>
+        <ul>
+            <li>Sort by alphabet</li>
+            <li>Sort by extension</li>
+            <li>Sort by package</li>
+        </ul>
+
+        Sources - <a href="https://github.com/leo-proger/TabSorter">GitHub</a>
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
