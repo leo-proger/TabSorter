@@ -40,6 +40,11 @@
                     class="com.github.leo_proger.tab_sorter.SortTabsByExtension" text="By Extension"
                     description="Sort open tabs by extension">
             </action>
+            <action id="com.github.leo_proger.tab_sorter.SortTabsByPackage"
+                    class="com.github.leo_proger.tab_sorter.SortTabsByPackage" text="By Package"
+                    description="Sort open tabs by package">
+            </action>
+
             <add-to-group group-id="EditorTabPopupMenu" anchor="first"/>
         </group>
     </actions>
