@@ -27,24 +27,6 @@
           <li>By extension (and alphabetically internally)</li>
           <li>By package (and alphabetically internally)</li>
         </ul>
-
-        <h2>Example</h2>
-        <p>Before:<br>
-        <img width="1978" height="462" alt="image" src="https://github.com/user-attachments/assets/62081961-2eb0-43ee-9267-1b81fca442c3" />
-        </p>
-
-        <p>After by package sorting:<br>
-        <img width="1974" height="458" alt="image" src="https://github.com/user-attachments/assets/aed8310f-66bb-4a45-8555-2be4965594fb" />
-        </p>
-
-        <p>After by name sorting:<br>
-        <img width="1986" height="462" alt="image" src="https://github.com/user-attachments/assets/d7dc3840-de3c-41e6-8046-57896fecb37d" />
-        </p>
-
-        <h1>Usage</h1>
-        <p>Right click on any tab:<br>
-        <img width="1966" height="292" alt="image" src="https://github.com/user-attachments/assets/8e863b8e-fab2-43b3-9c34-c03b8047e0c0" />
-        </p>
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
