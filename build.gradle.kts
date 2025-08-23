@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.leo_proger"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -33,7 +33,7 @@ intellijPlatform {
         }
 
         changeNotes = """
-            Initial version
+            The update includes various improvements and fixes for compatible
         """.trimIndent()
     }
 }
