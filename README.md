@@ -31,6 +31,12 @@ After by name sorting:
 Right click on any tab:
 <img width="1966" height="292" alt="image" src="https://github.com/user-attachments/assets/8e863b8e-fab2-43b3-9c34-c03b8047e0c0" />
 
+# Requirements
+
+- Any JetBrains IDE with version 2024.2+
+
+\* You can update your IDE **for free** [here](https://youtu.be/S6UQ1mcHwno)
+
 # Installation
 
 ## From your IDE (not available yet)
