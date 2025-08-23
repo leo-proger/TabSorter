@@ -8,7 +8,6 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
 import com.intellij.openapi.fileEditor.impl.EditorWindow;
 import com.intellij.openapi.fileEditor.impl.EditorsSplitters;
-import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -54,9 +53,6 @@ abstract public class Sorter extends AnAction {
 		Project project = e.getProject();
 		if (project == null) return null;
 
-		FileEditorManagerImpl manager = getFileEditorManager(e);
-		if (manager == null) return null;
-
 		VirtualFile clickedFile = getClickedFile(e);
 		if (clickedFile == null) return null;
 
@@ -71,13 +67,6 @@ abstract public class Sorter extends AnAction {
 
 	protected VirtualFile getClickedFile(AnActionEvent e) {
 		return e.getData(CommonDataKeys.VIRTUAL_FILE);
-	}
-
-	protected FileEditorManagerImpl getFileEditorManager(AnActionEvent e) {
-		Project project = e.getProject();
-		if (project == null) return null;
-
-		return (FileEditorManagerImpl) FileEditorManager.getInstance(project);
 	}
 
 }
