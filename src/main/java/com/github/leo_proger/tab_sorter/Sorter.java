@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
 import com.intellij.openapi.fileEditor.impl.EditorWindow;
 import com.intellij.openapi.fileEditor.impl.EditorsSplitters;
 import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
@@ -37,21 +38,16 @@ abstract public class Sorter extends AnAction {
 	}
 
 	protected EditorWindow findWindowContainingFile(AnActionEvent e) {
-		FileEditorManagerImpl manager = getFileEditorManager(e);
-		EditorWindow[] windows = manager.getWindows();
+		Project project = e.getProject();
+		if (project == null) return null;
 
-		for (EditorWindow window : windows)
-		{
-			List<VirtualFile> files = window.getFileList();
-			for (VirtualFile file : files)
-			{
-				if (file.equals(getClickedFile(e)))
-				{
-					return window;
-				}
-			}
-		}
-		return null;
+		EditorWindow window = e.getData(EditorWindow.DATA_KEY);
+		if (window != null) return window; // if action was invoked by clicking on tab
+
+		FileEditorManagerEx fem = FileEditorManagerEx.getInstanceEx(project);
+
+		EditorsSplitters splitters = fem.getSplitters();
+		return splitters.getCurrentWindow(); // if action was NOT invoked by clicking on tab (from another location)
 	}
 
 	protected List<VirtualFile> getOpenFiles(AnActionEvent e) {
