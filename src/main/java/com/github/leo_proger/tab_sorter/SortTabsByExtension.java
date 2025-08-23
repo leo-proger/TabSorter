@@ -18,7 +18,7 @@ public class SortTabsByExtension extends Sorter {
 
 		openFiles.sort(getExtensionAndNameComparator());
 
-		reorderTabs(findWindowContainingFile(e), openFiles);
+		reorderTabs(e.getProject(), findWindowContainingFile(e), openFiles);
 	}
 
 	private Comparator<VirtualFile> getExtensionAndNameComparator() {

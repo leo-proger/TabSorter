@@ -16,12 +16,12 @@ public class SortTabsByPackage extends Sorter {
 	@Override
 	public void actionPerformed(@NotNull AnActionEvent e) {
 		List<VirtualFile> openFiles = getOpenFiles(e);
-		Project project = getProject(e);
+		Project project = e.getProject();
 		if (openFiles == null || project == null) return;
 
 		List<VirtualFile> sortedFiles = sort(project, openFiles);
 
-		reorderTabs(findWindowContainingFile(e), sortedFiles);
+		reorderTabs(e.getProject(), findWindowContainingFile(e), sortedFiles);
 	}
 
 	private List<VirtualFile> sort(Project project, List<VirtualFile> files) {

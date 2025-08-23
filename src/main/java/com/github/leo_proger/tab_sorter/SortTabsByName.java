@@ -18,7 +18,7 @@ public class SortTabsByName extends Sorter {
 
 		openFiles.sort(Comparator.comparing(VirtualFile::getName, String.CASE_INSENSITIVE_ORDER));
 
-		reorderTabs(findWindowContainingFile(e), openFiles);
+		reorderTabs(e.getProject(), findWindowContainingFile(e), openFiles);
 	}
 
 }
