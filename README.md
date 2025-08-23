@@ -18,18 +18,18 @@ Put your workplace in order with this addon!
 ## Example
 
 Before:
-<img width="1978" height="462" alt="image" src="https://github.com/user-attachments/assets/62081961-2eb0-43ee-9267-1b81fca442c3" />
+<img width="1426" height="724" alt="mess_(good)" src="https://github.com/user-attachments/assets/931eb649-05bb-4cd8-8ae3-1f284eb57c81" />
 
 After by package sorting:
-<img width="1974" height="458" alt="image" src="https://github.com/user-attachments/assets/aed8310f-66bb-4a45-8555-2be4965594fb" />
+<img width="3009" height="1526" alt="package_sorting_(good)" src="https://github.com/user-attachments/assets/d7111eee-6e83-4b1e-a081-611ab832288d" />
 
 After by name sorting:
-<img width="1986" height="462" alt="image" src="https://github.com/user-attachments/assets/d7dc3840-de3c-41e6-8046-57896fecb37d" />
+<img width="3009" height="1527" alt="name_sorting_(good)" src="https://github.com/user-attachments/assets/00df08f5-83c4-4d52-a955-28f0e41abec2" />
 
 # Usage
 
 Right click on any tab:
-<img width="1966" height="292" alt="image" src="https://github.com/user-attachments/assets/8e863b8e-fab2-43b3-9c34-c03b8047e0c0" />
+<img width="3009" height="1527" alt="usage_(good)" src="https://github.com/user-attachments/assets/804fbb3b-a41e-42f0-8a0d-f0984e176124" />
 
 # Requirements
 
