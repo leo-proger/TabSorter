@@ -53,3 +53,9 @@ Settings > Plugins > Marketplace > Enter "Tab Sorter" > Click "Install"
 - Click "Get"
 - Select "Download" button for your IDE version
 - Settings > Plugins > 3 dots (next to "Installed") > "Install plugin from disk" > Select downloaded zip file
+
+# Contacts
+
+- [Telegram](https://t.me/leo_proger)
+
+Feel free to leave review, send me ideas, report about errors, create issues, etc. I will be thankful to you ❤️
