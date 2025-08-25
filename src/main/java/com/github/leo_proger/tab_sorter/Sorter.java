@@ -32,7 +32,7 @@ abstract public class Sorter extends AnAction {
 		FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
 		for (VirtualFile file : sortedFiles)
 		{
-			fileEditorManager.openFile(file, true);
+			fileEditorManager.openFile(file, false);
 		}
 	}
 
