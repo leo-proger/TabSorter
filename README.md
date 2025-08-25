@@ -12,9 +12,9 @@ Put your workplace in order with this addon!
 
 **Available criteria for sorting**:
 
-- By alphabet
-- By extension (and alphabetically internally)
-- By package (and alphabetically internally)
+- By name
+- By extension
+- By package
 
 ## Example
 
