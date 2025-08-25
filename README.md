@@ -4,8 +4,9 @@
 
 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/28252-tab-sorter)
 
-Tired of IntelliJ IDEA opening files wherever it wants? You can forget about that.
-This IntelliJ IDEA plugin allows you to sort open tabs in the editor window.
+Tired of JetBrains IDEs opening files wherever it wants? **You can forget about that**.
+
+This plugin allows you to sort open tabs in the editor window.
 
 Put your workplace in order with this addon!
 
@@ -49,9 +50,10 @@ Settings > Plugins > Marketplace > Enter "Tab Sorter" > Click "Install"
 - Settings > Plugins > 3 dots (next to "Installed") > "Install plugin from disk" > Select downloaded zip file
 
 ## From JetBrains Marketplace
+
 - Visit the [plugin page](https://plugins.jetbrains.com/plugin/28252-tab-sorter)
 - Click "Get"
-- Select "Download" button for your IDE version
+- Click the "Download" button for your IDE version
 - Settings > Plugins > 3 dots (next to "Installed") > "Install plugin from disk" > Select downloaded zip file
 
 # Contacts

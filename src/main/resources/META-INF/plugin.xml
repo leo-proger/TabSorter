@@ -16,8 +16,9 @@
         <h1>TabSorter</h1>
 
         <h2>Overview</h2>
-        <p>Tired of IntelliJ IDEA opening files wherever it wants? You can forget about that.<br>
-        This IntelliJ IDEA plugin allows you to sort open tabs in the editor window.</p>
+        <p>Tired of JetBrains IDEs opening files wherever it wants? <strong>You can forget about that.</strong></p>
+
+        <p>This plugin allows you to sort open tabs in the editor window.</p>
 
         <p>Put your workplace in order with this addon!</p>
 
