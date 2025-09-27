@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.leo_proger"
-version = "1.0.1.1"
+version = "1.0.1.1.1"
 
 repositories {
     mavenCentral()
@@ -33,7 +33,7 @@ intellijPlatform {
         }
 
         changeNotes = """
-            This update includes minor improvements and fixes for compatible
+            Attempt to update description on JetBrains Marketplace. Update readme description
         """.trimIndent()
     }
 }

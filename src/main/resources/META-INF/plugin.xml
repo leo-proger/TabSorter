@@ -6,6 +6,7 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
     <name>Tab Sorter</name>
+    <version>1.0.1.1.1</version>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor url="https://github.com/leo-proger">Leo Proger</vendor>
