@@ -40,7 +40,7 @@ Right click on any tab:
 
 # Installation
 
-## From your IDE (not available yet)
+## From your IDE
 
 Settings > Plugins > Marketplace > Enter "Tab Sorter" > Click "Install"
 
