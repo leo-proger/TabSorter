@@ -1,47 +1,9 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.github.leo_proger.tab_sorter</id>
-
-    <!-- Public plugin name should be written in Title Case.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-    <name>Tab Sorter</name>
-    <version>1.0.1.1.1</version>
-
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://github.com/leo-proger">Leo Proger</vendor>
-
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
-    <description><![CDATA[
-        <h1>TabSorter</h1>
-
-        <h2>Overview</h2>
-        <p>Tired of JetBrains IDEs opening files wherever it wants? <strong>You can forget about that.</strong></p>
-
-        <p>This plugin allows you to sort open tabs in the editor window.</p>
-
-        <p>Put your workplace in order with this addon!</p>
-
-        <p><strong>Available criteria for sorting</strong>:</p>
-        <ul>
-          <li>By name</li>
-          <li>By extension</li>
-          <li>By package</li>
-        </ul>
-    ]]></description>
-
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
-    <idea-version since-build="242"/>
-
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
     </extensions>
+
     <actions>
         <group id="TabSorterGroup"
                text="Sort Tabs"

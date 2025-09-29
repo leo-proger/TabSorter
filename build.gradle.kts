@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.leo_proger"
-version = "1.0.1.1.1"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
@@ -14,26 +14,50 @@ repositories {
     }
 }
 
-// Configure IntelliJ Platform Gradle Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
 dependencies {
     intellijPlatform {
         create("IC", "2025.1")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
-
-      // Add necessary plugin dependencies for compilation here, example:
-      // bundledPlugin("com.intellij.java")
     }
 }
 
 intellijPlatform {
     pluginConfiguration {
+        id = "com.github.leo_proger.tab_sorter"
+        name = "Tab Sorter"
+        version = "1.0.3"
+        vendor {
+            name = "Leo Proger"
+            email = "leoproger11@gmail.com"
+            url = "https://github.com/leo-proger"
+        }
+
         ideaVersion {
             sinceBuild = "242"
         }
 
+        description = """
+            <h1>TabSorter</h1>
+
+            <h2>Overview</h2>
+            <p>Tired of JetBrains IDEs opening files wherever it wants? <strong>You can forget about that.</strong></p>
+    
+            <p>This plugin allows you to sort open tabs in the editor window.</p>
+    
+            <p>Put your workplace in order with this addon!</p>
+    
+            <p><strong>Available criteria for sorting</strong>:</p>
+            <ul>
+              <li>By name</li>
+              <li>By extension</li>
+              <li>By package</li>
+            </ul>
+            <p>That's all you need.</p>
+            <p>Otherwise, I am glad to see the feedback about that you would like to add.</p>
+        """.trimIndent()
+
         changeNotes = """
-            Attempt to update description on JetBrains Marketplace. Update readme description
+            Attempt to update description on JetBrains Marketplace one more time. I would appreciate your feedback.
         """.trimIndent()
     }
 }
