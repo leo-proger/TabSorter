@@ -1,5 +1,9 @@
 # TabSorter
 
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/28252?style=flat-square)](https://plugins.jetbrains.com/plugin/28252)
+![Version](https://img.shields.io/jetbrains/plugin/v/28252?style=flat-square)
+![Rating](https://img.shields.io/jetbrains/plugin/r/stars/28252?style=flat-square)
+
 ## Overview
 
 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/28252-tab-sorter)
