@@ -22,6 +22,9 @@
                     class="com.github.leo_proger.tab_sorter.SortTabsByPackage" text="By Package"
                     description="Sort open tabs by package">
             </action>
+            <action id="com.github.leo_proger.tab_sorter.SortTabsByScope"
+                    class="com.github.leo_proger.tab_sorter.SortTabsByScope" text="By Scope"
+                    description="Sort open tabs by Scope"/>
 
             <add-to-group group-id="EditorTabPopupMenu" anchor="first"/>
         </group>
