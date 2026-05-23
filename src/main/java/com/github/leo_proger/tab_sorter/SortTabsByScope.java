@@ -1,166 +1,135 @@
 package com.github.leo_proger.tab_sorter;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.scope.packageSet.PackageSet;
-import com.intellij.psi.search.scope.packageSet.NamedScopeManager;
-import com.intellij.psi.search.scope.packageSet.NamedScope;
 import com.intellij.ui.FileColorManager;
 import com.intellij.ui.tabs.FileColorManagerImpl;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.Color;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SortTabsByScope extends Sorter {
-    private static final Logger log = Logger.getInstance(SortTabsByScope.class);
+	private static final Logger log = Logger.getInstance(SortTabsByScope.class);
 
-    @Override
-    public void actionPerformed(@NotNull AnActionEvent e) {
-        List<VirtualFile> openFiles = getOpenFiles(e);
-        Project project = e.getProject();
+	@Override
+	public void actionPerformed(@NotNull AnActionEvent e) {
+		List<VirtualFile> openFiles = getOpenFiles(e);
+		Project project = e.getProject();
 
-        if (openFiles == null || project == null) {
-            return;
-        }
+		if (openFiles == null || project == null) {
+			return;
+		}
 
-        List<VirtualFile> sortedFiles = sort(project, openFiles);
+		List<VirtualFile> sortedFiles = sort(project, openFiles);
 
-        reorderTabs(project, findWindowContainingFile(e), sortedFiles);
-    }
+		reorderTabs(project, findWindowContainingFile(e), sortedFiles);
+	}
 
-    private List<VirtualFile> sort(Project project, List<VirtualFile> files) {
-        FileColorManager manager = FileColorManager.getInstance(project);
+	private List<VirtualFile> sort(Project project, List<VirtualFile> files) {
+		FileColorManager manager = FileColorManager.getInstance(project);
+		if (manager == null) {
+			return files;
+		}
 
-        if (log.isDebugEnabled()) {
-            log.debug("FileColorManager implementation class: " + manager.getClass().getName());
+		Map<Color, Integer> colorOrder = buildColorOrder(manager);
 
-            for (Method method : manager.getClass().getDeclaredMethods()) {
-                log.debug(" - " + method.toString());
-            }
-        }
+		// Resolve each file's color index once — the comparator runs O(n log n)
+		// times, and getFileColor can trigger PSI work.
+		Map<VirtualFile, Integer> fileIndex = new HashMap<>();
+		for (VirtualFile file : files) {
+			Color color = manager.getFileColor(file);
+			int idx = color != null ? colorOrder.getOrDefault(color, Integer.MAX_VALUE) : Integer.MAX_VALUE;
+			fileIndex.put(file, idx);
+			log.debug("File: " + file.getPath() + " color=" + color + " index=" + idx);
+		}
 
-        var configs = getFileColorConfigs(manager);
-        List<String> scopeOrder = getFileColorOrder(configs);
+		files.sort(
+			Comparator
+				.comparingInt((VirtualFile file) -> fileIndex.get(file))
+				.thenComparing(
+					(VirtualFile file) -> file.getParent() != null ? file.getParent().getPath() : "",
+					String.CASE_INSENSITIVE_ORDER)
+				.thenComparing(VirtualFile::getName, String.CASE_INSENSITIVE_ORDER));
 
-        files.sort(
-            Comparator
-                .comparingInt((VirtualFile file) -> {
-                    String scope = findMatchingScopeName(project, file, configs);
+		if (log.isDebugEnabled()) {
+			log.debug("Final files sorted in File Color order:");
+			for (VirtualFile file : files) {
+				log.debug("  " + file.getPath());
+			}
+		}
 
-                    int fileIndex = scopeOrder.indexOf(scope);
+		return files;
+	}
 
-                    log.debug("Filepath: " + file.getPath());
-                    log.debug("  Scope: " + scope);
-                    log.debug("  Index: " + fileIndex);
+	/**
+	 * Color -> first index across local and shared File Colors configurations,
+	 * preserving the order configured in Settings | Appearance | File Colors.
+	 *
+	 * The IntelliJ Platform does not expose the configured scope list publicly,
+	 * so we read it via reflection. Color/scope resolution itself goes through
+	 * the public API (getScopeColor, getFileColor).
+	 */
+	private Map<Color, Integer> buildColorOrder(FileColorManager manager) {
+		List<String> scopeNames = new ArrayList<>();
+		scopeNames.addAll(getScopeNames(manager, "getLocalConfigurations"));
+		scopeNames.addAll(getScopeNames(manager, "getSharedConfigurations"));
 
-                    return fileIndex >= 0 ? fileIndex : Integer.MAX_VALUE;
-                })
-                .thenComparing((VirtualFile file) ->
-                    file.getParent() != null
-                        ? file.getParent().getPath()
-                        : "",
-                    String.CASE_INSENSITIVE_ORDER
-                )
-                .thenComparing(VirtualFile::getName, String.CASE_INSENSITIVE_ORDER));
+		Map<Color, Integer> colorOrder = new HashMap<>();
+		int index = 0;
+		for (String scopeName : scopeNames) {
+			Color color = manager.getScopeColor(scopeName);
+			if (color == null) {
+				continue;
+			}
+			if (colorOrder.putIfAbsent(color, index) == null) {
+				index++;
+			}
+		}
+		return colorOrder;
+	}
 
-        if (log.isDebugEnabled()) {
-            log.debug("// Final files sorted in File Color order");
+	private List<String> getScopeNames(FileColorManager manager, String modelMethodName) {
+		if (!(manager instanceof FileColorManagerImpl)) {
+			log.debug("FileColorManager is not FileColorManagerImpl: " + manager.getClass().getName());
+			return List.of();
+		}
+		try {
+			Method getModel = FileColorManagerImpl.class.getDeclaredMethod("getModel");
+			getModel.setAccessible(true);
+			Object model = getModel.invoke(manager);
+			if (model == null) {
+				return List.of();
+			}
 
-            for (VirtualFile file : files) {
-                log.debug(file.getPath());
-            }
-        }
+			Method getConfigs = model.getClass().getDeclaredMethod(modelMethodName);
+			getConfigs.setAccessible(true);
+			List<?> configs = (List<?>) getConfigs.invoke(model);
+			if (configs == null || configs.isEmpty()) {
+				return List.of();
+			}
 
-        return files;
-    }
+			Method getScopeName = configs.get(0).getClass().getDeclaredMethod("getScopeName");
+			getScopeName.setAccessible(true);
 
-    private List<?> getFileColorConfigs(FileColorManager manager) {
-        try {
-            Method getModelMethod = FileColorManagerImpl.class.getDeclaredMethod("getModel");
-            getModelMethod.setAccessible(true);
-
-            Object model = getModelMethod.invoke(manager);
-
-            Method method = model.getClass().getDeclaredMethod("getLocalConfigurations");
-            method.setAccessible(true);
-
-            List<?> configs = (List<?>) method.invoke(model);
-
-            return configs;
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-            log.warn("// Failed to read FileColorManager configurations", ex);
-        }
-
-        return Collections.emptyList();
-    }
-
-    private List<String> getFileColorOrder(List<?> configs) {
-        List<String> scopeOrder = new ArrayList<>();
-
-        log.debug("// File Color Order");
-
-        try {
-            for (Object cfg : configs) {
-                Method getScopeName = cfg.getClass().getDeclaredMethod("getScopeName");
-
-                getScopeName.setAccessible(true);
-
-                String scopeName = (String) getScopeName.invoke(cfg);
-
-                scopeOrder.add(scopeName);
-
-                log.debug(" - " + scopeName);
-            }
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-            log.warn("// Failed to read FileColorManager color order", ex);
-        }
-
-        return scopeOrder;
-    }
-
-    /**
-     * The following won't work, since it returns default scopes: `com.intellij.packageDependencies.DependencyValidationManager`;
-     * Therefore, we're trying to get the File Color scope order via reflection.
-     *
-     * Though, the following is public, too I see: `com.intellij.ui.FileColorManager.getFileColor`
-     */
-    private String findMatchingScopeName(Project project, VirtualFile file, List<?> configs) {
-        PsiFile psiFile = PsiManager.getInstance(project).findFile(file);
-
-        if (psiFile == null) {
-            return null;
-        }
-
-        NamedScopeManager scopeManager = NamedScopeManager.getInstance(project);
-
-        for (Object cfg : configs) {
-            try {
-                Method getScopeName = cfg.getClass().getDeclaredMethod("getScopeName");
-                getScopeName.setAccessible(true);
-
-                String scopeName = (String) getScopeName.invoke(cfg);
-                NamedScope scope = scopeManager.getScope(scopeName);
-
-                if (scope == null)
-                    continue;
-
-                PackageSet set = scope.getValue();
-
-                if (set != null && set.contains(psiFile, scopeManager)) {
-                    return scopeName;
-                }
-            } catch (Exception ignored) {
-            }
-        }
-
-        return null;
-    }
+			List<String> result = new ArrayList<>(configs.size());
+			for (Object cfg : configs) {
+				String name = (String) getScopeName.invoke(cfg);
+				if (name != null) {
+					result.add(name);
+				}
+			}
+			return result;
+		} catch (ReflectiveOperationException ex) {
+			log.warn("Failed to read FileColorManager " + modelMethodName, ex);
+			return List.of();
+		}
+	}
 }
