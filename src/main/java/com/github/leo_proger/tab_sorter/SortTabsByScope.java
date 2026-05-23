@@ -1,5 +1,6 @@
 package com.github.leo_proger.tab_sorter;
 
+
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -16,7 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class SortTabsByScope extends Sorter {
+
 	private static final Logger log = Logger.getInstance(SortTabsByScope.class);
 
 	@Override
@@ -24,7 +27,8 @@ public class SortTabsByScope extends Sorter {
 		List<VirtualFile> openFiles = getOpenFiles(e);
 		Project project = e.getProject();
 
-		if (openFiles == null || project == null) {
+		if (openFiles == null || project == null)
+		{
 			return;
 		}
 
@@ -35,7 +39,8 @@ public class SortTabsByScope extends Sorter {
 
 	private List<VirtualFile> sort(Project project, List<VirtualFile> files) {
 		FileColorManager manager = FileColorManager.getInstance(project);
-		if (manager == null) {
+		if (manager == null)
+		{
 			return files;
 		}
 
@@ -44,7 +49,8 @@ public class SortTabsByScope extends Sorter {
 		// Resolve each file's color index once — the comparator runs O(n log n)
 		// times, and getFileColor can trigger PSI work.
 		Map<VirtualFile, Integer> fileIndex = new HashMap<>();
-		for (VirtualFile file : files) {
+		for (VirtualFile file : files)
+		{
 			Color color = manager.getFileColor(file);
 			int idx = color != null ? colorOrder.getOrDefault(color, Integer.MAX_VALUE) : Integer.MAX_VALUE;
 			fileIndex.put(file, idx);
@@ -52,16 +58,19 @@ public class SortTabsByScope extends Sorter {
 		}
 
 		files.sort(
-			Comparator
-				.comparingInt((VirtualFile file) -> fileIndex.get(file))
-				.thenComparing(
-					(VirtualFile file) -> file.getParent() != null ? file.getParent().getPath() : "",
-					String.CASE_INSENSITIVE_ORDER)
-				.thenComparing(VirtualFile::getName, String.CASE_INSENSITIVE_ORDER));
+				Comparator
+						.comparingInt((VirtualFile file) -> fileIndex.get(file))
+						.thenComparing(
+								(VirtualFile file) -> file.getParent() != null ? file.getParent().getPath() : "",
+								String.CASE_INSENSITIVE_ORDER
+						)
+						.thenComparing(VirtualFile::getName, String.CASE_INSENSITIVE_ORDER));
 
-		if (log.isDebugEnabled()) {
+		if (log.isDebugEnabled())
+		{
 			log.debug("Final files sorted in File Color order:");
-			for (VirtualFile file : files) {
+			for (VirtualFile file : files)
+			{
 				log.debug("  " + file.getPath());
 			}
 		}
@@ -70,21 +79,23 @@ public class SortTabsByScope extends Sorter {
 	}
 
 	/**
-	 * Color -> first index across local and shared File Colors configurations,
-	 * preserving the order configured in Settings | Appearance | File Colors.
-	 *
-	 * The IntelliJ Platform does not expose the configured scope list publicly,
-	 * so we read it via reflection. Color/scope resolution itself goes through
-	 * the public API (getScopeColor, getFileColor).
+	 Color -> first index across local and shared File Colors configurations,
+	 preserving the order configured in Settings | Appearance | File Colors.
+	 <p>
+	 The IntelliJ Platform does not expose the configured scope list publicly,
+	 so we read it via reflection. Color/scope resolution itself goes through
+	 the public API (getScopeColor, getFileColor).
 	 */
 	private Map<Color, Integer> buildColorOrder(FileColorManager manager) {
-		if (!(manager instanceof FileColorManagerImpl)) {
+		if (!(manager instanceof FileColorManagerImpl))
+		{
 			log.debug("FileColorManager is not FileColorManagerImpl: " + manager.getClass().getName());
 			return Map.of();
 		}
 
 		Object model = getModel((FileColorManagerImpl) manager);
-		if (model == null) {
+		if (model == null)
+		{
 			return Map.of();
 		}
 
@@ -94,12 +105,15 @@ public class SortTabsByScope extends Sorter {
 
 		Map<Color, Integer> colorOrder = new HashMap<>();
 		int index = 0;
-		for (String scopeName : scopeNames) {
+		for (String scopeName : scopeNames)
+		{
 			Color color = manager.getScopeColor(scopeName);
-			if (color == null) {
+			if (color == null)
+			{
 				continue;
 			}
-			if (colorOrder.putIfAbsent(color, index) == null) {
+			if (colorOrder.putIfAbsent(color, index) == null)
+			{
 				index++;
 			}
 		}
@@ -107,22 +121,26 @@ public class SortTabsByScope extends Sorter {
 	}
 
 	private Object getModel(FileColorManagerImpl manager) {
-		try {
+		try
+		{
 			Method getModel = FileColorManagerImpl.class.getDeclaredMethod("getModel");
 			getModel.setAccessible(true);
 			return getModel.invoke(manager);
-		} catch (ReflectiveOperationException ex) {
+		} catch (ReflectiveOperationException ex)
+		{
 			log.warn("Failed to get FileColorManager model", ex);
 			return null;
 		}
 	}
 
 	private List<String> getScopeNames(Object model, String methodName) {
-		try {
+		try
+		{
 			Method getConfigs = model.getClass().getDeclaredMethod(methodName);
 			getConfigs.setAccessible(true);
 			List<?> configs = (List<?>) getConfigs.invoke(model);
-			if (configs == null || configs.isEmpty()) {
+			if (configs == null || configs.isEmpty())
+			{
 				return List.of();
 			}
 
@@ -130,16 +148,20 @@ public class SortTabsByScope extends Sorter {
 			getScopeName.setAccessible(true);
 
 			List<String> result = new ArrayList<>(configs.size());
-			for (Object cfg : configs) {
+			for (Object cfg : configs)
+			{
 				String name = (String) getScopeName.invoke(cfg);
-				if (name != null) {
+				if (name != null)
+				{
 					result.add(name);
 				}
 			}
 			return result;
-		} catch (ReflectiveOperationException ex) {
+		} catch (ReflectiveOperationException ex)
+		{
 			log.warn("Failed to read FileColorManager " + methodName, ex);
 			return List.of();
 		}
 	}
+
 }

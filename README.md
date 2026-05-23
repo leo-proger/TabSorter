@@ -19,6 +19,7 @@ Put your workplace in order with this addon!
 - By name
 - By extension
 - By package
+- By Scope
 
 ## Example
 

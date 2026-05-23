@@ -38,7 +38,7 @@ intellijPlatform {
 
         changeNotes = """
             <ul>
-              <li>New: <b>By Scope</b> — experimental sorting by File Colors scope configuration order.</li>
+              <li>New: <b>By Scope</b> — sort open tabs by File Colors scope configuration order.</li>
             </ul>
         """.trimIndent()
 
@@ -66,7 +66,9 @@ intellijPlatform {
 
     pluginVerification {
         ides {
+            ide("IU", "2026.1.2")
             ide("IC", "2025.1")
+            ide("IC", "2024.2.6")
         }
     }
 }
