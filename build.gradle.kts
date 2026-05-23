@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.leo_proger"
-version = "1.0.3"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ intellijPlatform {
     pluginConfiguration {
         id = "com.github.leo_proger.tab_sorter"
         name = "Tab Sorter"
-        version = "1.0.3"
+        version = "1.0.4"
         vendor {
             name = "Leo Proger"
             email = "leoproger11@gmail.com"
@@ -41,16 +41,17 @@ intellijPlatform {
 
             <h2>Overview</h2>
             <p>Tired of JetBrains IDEs opening files wherever it wants? <strong>You can forget about that.</strong></p>
-    
+
             <p>This plugin allows you to sort open tabs in the editor window.</p>
-    
+
             <p>Put your workplace in order with this addon!</p>
-    
+
             <p><strong>Available criteria for sorting</strong>:</p>
             <ul>
               <li>By name</li>
               <li>By extension</li>
               <li>By package</li>
+              <li>By Scope</li>
             </ul>
             <p>That's all you need.</p>
             <p>Otherwise, I am glad to see the feedback about that you would like to add.</p>
