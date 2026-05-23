@@ -39,10 +39,12 @@ public class SortTabsByScope extends Sorter {
     private List<VirtualFile> sort(Project project, List<VirtualFile> files) {
         FileColorManager manager = FileColorManager.getInstance(project);
 
-        log.warn("FileColorManager implementation class: " + manager.getClass().getName());
+        if (log.isDebugEnabled()) {
+            log.debug("FileColorManager implementation class: " + manager.getClass().getName());
 
-        for (Method method : manager.getClass().getDeclaredMethods()) {
-            log.warn(" - " + method.toString());
+            for (Method method : manager.getClass().getDeclaredMethods()) {
+                log.debug(" - " + method.toString());
+            }
         }
 
         var configs = getFileColorConfigs(manager);
@@ -55,9 +57,9 @@ public class SortTabsByScope extends Sorter {
 
                     int fileIndex = scopeOrder.indexOf(scope);
 
-                    log.warn("Filepath: " + file.getPath());
-                    log.warn("  Scope: " + scope);
-                    log.warn("  Index: " + fileIndex);
+                    log.debug("Filepath: " + file.getPath());
+                    log.debug("  Scope: " + scope);
+                    log.debug("  Index: " + fileIndex);
 
                     return fileIndex >= 0 ? fileIndex : Integer.MAX_VALUE;
                 })
@@ -69,10 +71,12 @@ public class SortTabsByScope extends Sorter {
                 )
                 .thenComparing(VirtualFile::getName, String.CASE_INSENSITIVE_ORDER));
 
-        log.warn("// Final files sorted in File Color order");
+        if (log.isDebugEnabled()) {
+            log.debug("// Final files sorted in File Color order");
 
-        for (VirtualFile file : files) {
-            log.warn(file.getPath());
+            for (VirtualFile file : files) {
+                log.debug(file.getPath());
+            }
         }
 
         return files;
@@ -101,7 +105,7 @@ public class SortTabsByScope extends Sorter {
     private List<String> getFileColorOrder(List<?> configs) {
         List<String> scopeOrder = new ArrayList<>();
 
-        log.warn("// File Color Order");
+        log.debug("// File Color Order");
 
         try {
             for (Object cfg : configs) {
@@ -113,7 +117,7 @@ public class SortTabsByScope extends Sorter {
 
                 scopeOrder.add(scopeName);
 
-                log.warn(" - " + scopeName);
+                log.debug(" - " + scopeName);
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             log.warn("// Failed to read FileColorManager color order", ex);
