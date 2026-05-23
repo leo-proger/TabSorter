@@ -36,6 +36,12 @@ intellijPlatform {
             sinceBuild = "242"
         }
 
+        changeNotes = """
+            <ul>
+              <li>New: <b>By Scope</b> — experimental sorting by File Colors scope configuration order.</li>
+            </ul>
+        """.trimIndent()
+
         description = """
             <h1>TabSorter</h1>
 
@@ -56,10 +62,12 @@ intellijPlatform {
             <p>That's all you need.</p>
             <p>Otherwise, I am glad to see the feedback about that you would like to add.</p>
         """.trimIndent()
+    }
 
-        changeNotes = """
-            Attempt to update description on JetBrains Marketplace one more time. I would appreciate your feedback.
-        """.trimIndent()
+    pluginVerification {
+        ides {
+            recommended()
+        }
     }
 }
 

@@ -78,9 +78,19 @@ public class SortTabsByScope extends Sorter {
 	 * the public API (getScopeColor, getFileColor).
 	 */
 	private Map<Color, Integer> buildColorOrder(FileColorManager manager) {
+		if (!(manager instanceof FileColorManagerImpl)) {
+			log.debug("FileColorManager is not FileColorManagerImpl: " + manager.getClass().getName());
+			return Map.of();
+		}
+
+		Object model = getModel((FileColorManagerImpl) manager);
+		if (model == null) {
+			return Map.of();
+		}
+
 		List<String> scopeNames = new ArrayList<>();
-		scopeNames.addAll(getScopeNames(manager, "getLocalConfigurations"));
-		scopeNames.addAll(getScopeNames(manager, "getSharedConfigurations"));
+		scopeNames.addAll(getScopeNames(model, "getLocalConfigurations"));
+		scopeNames.addAll(getScopeNames(model, "getSharedConfigurations"));
 
 		Map<Color, Integer> colorOrder = new HashMap<>();
 		int index = 0;
@@ -96,20 +106,20 @@ public class SortTabsByScope extends Sorter {
 		return colorOrder;
 	}
 
-	private List<String> getScopeNames(FileColorManager manager, String modelMethodName) {
-		if (!(manager instanceof FileColorManagerImpl)) {
-			log.debug("FileColorManager is not FileColorManagerImpl: " + manager.getClass().getName());
-			return List.of();
-		}
+	private Object getModel(FileColorManagerImpl manager) {
 		try {
 			Method getModel = FileColorManagerImpl.class.getDeclaredMethod("getModel");
 			getModel.setAccessible(true);
-			Object model = getModel.invoke(manager);
-			if (model == null) {
-				return List.of();
-			}
+			return getModel.invoke(manager);
+		} catch (ReflectiveOperationException ex) {
+			log.warn("Failed to get FileColorManager model", ex);
+			return null;
+		}
+	}
 
-			Method getConfigs = model.getClass().getDeclaredMethod(modelMethodName);
+	private List<String> getScopeNames(Object model, String methodName) {
+		try {
+			Method getConfigs = model.getClass().getDeclaredMethod(methodName);
 			getConfigs.setAccessible(true);
 			List<?> configs = (List<?>) getConfigs.invoke(model);
 			if (configs == null || configs.isEmpty()) {
@@ -128,7 +138,7 @@ public class SortTabsByScope extends Sorter {
 			}
 			return result;
 		} catch (ReflectiveOperationException ex) {
-			log.warn("Failed to read FileColorManager " + modelMethodName, ex);
+			log.warn("Failed to read FileColorManager " + methodName, ex);
 			return List.of();
 		}
 	}
